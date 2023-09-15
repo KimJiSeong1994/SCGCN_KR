@@ -1,4 +1,3 @@
-
 class Get_geoinfo :
     def __init__(self, place_nm : list) :
         import osmnx as ox
