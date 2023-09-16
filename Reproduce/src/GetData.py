@@ -16,7 +16,12 @@ class Get_geoinfo :
         landuse = gpd.GeoDataFrame(landuse, geometry = "geometry", crs = 'EPSG:4326')
 
         self.landuse = landuse[landuse.geometry.type == 'Polygon'] # Remove incomplete polygon
-        self._get = {'area' : self.area, 'landuses' : self.landuses}
+        self._get = {'area' : self.area, 'landuses' : self.landuse}
 
     def __getitem__(self, item) :
         return self._get[item]
+
+if __name__ == "__main__" :
+    place_nm = ["seoul"]
+    info = Get_geoinfo(place_nm)
+    seoul_info = info["landuses"]
