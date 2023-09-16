@@ -14,5 +14,3 @@ class Utils :
             PPE_ajd[i[1], i[2]] = 1
 
         return PPE_ajd
-
-

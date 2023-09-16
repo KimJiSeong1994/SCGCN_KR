@@ -21,7 +21,20 @@ class Get_geoinfo :
     def __getitem__(self, item) :
         return self._get[item]
 
+def Get_streetview(locations) :
+    import io
+    import requests
+    from PIL import Image
+    from Reproduce.src.config import config
+    param = {'fov' : '120', 'heading' : '-45', 'pitch' : '30', 'locations' : f'{locations}'}
+    url = f"https://maps.googleapis.com/maps/api/streetview?size=400x300&location={param['locations']}&fov={param['fov']}&heading={param['heading']}&pitch={param['pitch']}&key={config.GOOGLEMAP_API}"
+    Image.open(io.BytesIO(requests.request("GET", url, headers ={}, data = {}).content)).save(f"{config.FILE_PATH}/street_view{locations}.png")
+
 if __name__ == "__main__" :
+    from tqdm import tqdm
     place_nm = ["seoul"]
     info = Get_geoinfo(place_nm)
     seoul_info = info["landuses"]
+
+    points = [[s.x, s.y] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
+    _ = [Get_streetview(p) for p in tqdm(points)]
