@@ -36,5 +36,6 @@ if __name__ == "__main__" :
     info = Get_geoinfo(place_nm)
     seoul_info = info["landuses"]
 
-    points = [[s.x, s.y] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
+    points = [[s.y, s.x] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
+    points = [str(p[0]) + "," + str(p[1]) for p in points]
     _ = [Get_streetview(p) for p in tqdm(points)]
