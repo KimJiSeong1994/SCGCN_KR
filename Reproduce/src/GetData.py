@@ -39,3 +39,4 @@ if __name__ == "__main__" :
     points = [[s.y, s.x] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
     points = [str(p[0]) + "," + str(p[1]) for p in points]
     _ = [Get_streetview(p) for p in tqdm(points)]
+
