@@ -3,5 +3,10 @@
 
 ---
 ### Reference 
-* <p>  Fang, Fang, et al. "Spatial context-aware method for urban land use classification using street view images." ISPRS Journal of Photogrammetry and Remote Sensing 192 (2022): 1-12. </p>
-* <p> <a href = "https://darkpgmr.tistory.com/96#recentComments"> Delaunay Triangulation - Dark Programmer </a></p>
+[[0] Fang, Fang, et al. "Spatial context-aware method for urban land use classification using street view images." *ISPRS Journal of Photogrammetry and Remote Sensing* 192 (2022): 1-12.](https://www.sciencedirect.com/science/article/abs/pii/S0924271622001988)
+
+[[1] Zhang, Chuxu, et al. "Heterogeneous graph neural network." *Proceedings of the 25th ACM SIGKDD international conference on knowledge discovery & data mining*. 2019.](https://arxiv.org/pdf/1909.10248.pdf)
+
+[[2] Kipf, Thomas N., and Max Welling. "Semi-supervised classification with graph convolutional networks." *arXiv preprint arXiv:1609.02907* (2016).](https://arxiv.org/pdf/1609.02907.pdf)
+
+[[3] Fang, Fang, et al. "Urban land-use classification from photographs." *IEEE Geoscience and Remote Sensing Letters* 15.12 (2018): 1927-1931.](https://ieeexplore.ieee.org/abstract/document/8447270)
