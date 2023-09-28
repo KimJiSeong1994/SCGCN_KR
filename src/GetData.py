@@ -21,17 +21,20 @@ class Get_geoinfo :
     def __getitem__(self, item) :
         return self._get[item]
 
-def Get_streetview(locations) :
+def Get_streetview(locations, i) :
     import io
     import requests
     from PIL import Image
     from src.config import config
     param = {'fov' : '120', 'heading' : '-45', 'pitch' : '30', 'locations' : f'{locations}'}
     url = f"https://maps.googleapis.com/maps/api/streetview?size=400x300&location={param['locations']}&fov={param['fov']}&heading={param['heading']}&pitch={param['pitch']}&key={config.GOOGLEMAP_API}"
-    Image.open(io.BytesIO(requests.request("GET", url, headers ={}, data = {}).content)).save(f"{config.FILE_PATH}/street_view{locations}.png")
+    Image.open(io.BytesIO(requests.request("GET", url, headers ={}, data = {}).content)).save(f"{config.FILE_PATH}/street_view_{i}.png")
 
 if __name__ == "__main__" :
+    import os, shutil
     from tqdm import tqdm
+    from src.config import config
+
     place_nm = ["seoul"]
     info = Get_geoinfo(place_nm)
     seoul_info = info["landuses"]
@@ -39,4 +42,15 @@ if __name__ == "__main__" :
 
     points = [[s.y, s.x] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
     points = [str(p[0]) + "," + str(p[1]) for p in points]
-    _ = [Get_streetview(p) for p in tqdm(points)]
+    _ = [Get_streetview(p, i) for p, i in tqdm(enumerate(points))]
+
+    landuse_type = list(set(seoul_info['landuse'].values))
+    landuse_dict = {t: seoul_info[seoul_info['landuse'].isin([t])].index.tolist() for t in landuse_type}
+    _ = [os.makedirs(f'{config.FILE_PATH}/{t}') for t in landuse_type]
+
+    file_list = sorted(os.listdir(config.FILE_PATH))[6:]
+    file_list.sort(key = lambda f: int(''.join(filter(str.isdigit, f))))
+    for t in tqdm(landuse_type) :  # Move category name file
+        for i in landuse_dict[t] :
+            shutil.move(f"{config.FILE_PATH}/{file_list[i]}", f"{config.FILE_PATH}/{t}/{file_list[i]}")
+
