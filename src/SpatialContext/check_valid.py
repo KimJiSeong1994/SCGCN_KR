@@ -11,7 +11,6 @@ def validate_image(filepath):
 
 if __name__ == "__main__" :
     ctg_fl = sorted(os.listdir(config.FILE_PATH))[1:]
-
     for dir_ in tqdm(ctg_fl):
         folder_path = os.path.join(config.FILE_PATH, dir_)
         files = os.listdir(folder_path)
