@@ -1,44 +1,10 @@
-def model_train(model, data_loader, loss_fn, optimizer, device):
-    from tqdm import tqdm
-    model.train()
-    running_loss, corr= 0, 0
-    prograss_bar = tqdm(data_loader)
-
-    for img, lbl in prograss_bar:
-        img, lbl = img.to(device), lbl.to(device)
-        optimizer.zero_grad()
-        output = model(img)
-
-        loss = loss_fn(output, lbl)
-        loss.backward()
-        optimizer.step()
-        _, pred = output.max(dim=1)
-        corr += pred.eq(lbl).sum().item()
-        running_loss += loss.item() * img.size(0)
-
-    acc = corr / len(data_loader.dataset)
-    return running_loss / len(data_loader.dataset), acc
-
-
-def model_evaluate(model, data_loader, loss_fn, device):
-    model.eval()
-    with torch.no_grad():
-        corr, running_loss = 0, 0
-
-        for img, lbl in data_loader:
-            img, lbl = img.to(device), lbl.to(device)
-            output = model(img)
-            _, pred = output.max(dim=1)
-            corr += torch.sum(pred.eq(lbl)).item()
-            running_loss += loss_fn(output, lbl).item() * img.size(0)
-
-        acc = corr / len(data_loader.dataset)
-        return running_loss / len(data_loader.dataset), acc
 
 if __name__ == "__main__" :
+    import numpy as np
     import pandas as pd
     from src.config import config
-    from src.SpatialContext.backbone_utils import CustomImageDataset
+    from src.SpatialContext.backbone_utils import CustomImageDataset, train_test_split
+    from src.SpatialContext.trainner import model_train, model_evaluate
 
     import torch
     import torch.nn as nn
@@ -67,6 +33,17 @@ if __name__ == "__main__" :
     optimizer = optim.Adam(model.parameters(), lr = 0.0001)
     loss_fn = nn.CrossEntropyLoss()
 
+    num_epochs = 50
+    min_loss = np.inf
+    for epoch in range(num_epochs):
+        train_loss, train_acc = model_train(model, train_loader, loss_fn, optimizer, device)
+        val_loss, val_acc = model_evaluate(model, test_loader, loss_fn, device)
+        if val_loss < min_loss:
+            print(f'[INFO] val_loss has been improved from {min_loss:.5f} to {val_loss:.5f}. Saving Model!')
+            min_loss = val_loss
+            torch.save(model.state_dict(), './src/SpatialContext/model_output/backbone_result.pth')
+        print(f'epoch {epoch + 1:02d}, loss: {train_loss:.5f}, acc: {train_acc:.5f}, val_loss: {val_loss:.5f}, val_accuracy: {val_acc:.5f}')
 
-
-
+    model.load_state_dict(torch.load('./src/SpatialContext/model_output/backbone_result.pth'))
+    final_loss, final_acc = model_evaluate(model, test_loader, loss_fn, device)
+    print(f'evaluation loss: {final_loss:.5f}, evaluation accuracy: {final_acc:.5f}') # eval

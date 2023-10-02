@@ -38,7 +38,7 @@ if __name__ == "__main__" :
     place_nm = ["seoul"]
     info = Get_geoinfo(place_nm)
     seoul_info = info["landuses"]
-    seoul_info.to_pickle("./Reproduce/data/seoul_landuse.pkl")
+    seoul_info.reset_index().to_pickle("./data/landuses/seoul_landuse.pkl")
 
     points = [[s.y, s.x] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
     points = [str(p[0]) + "," + str(p[1]) for p in points]

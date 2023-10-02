@@ -10,3 +10,7 @@
 [[2] Kipf, Thomas N., and Max Welling. "Semi-supervised classification with graph convolutional networks." *arXiv preprint arXiv:1609.02907* (2016).](https://arxiv.org/pdf/1609.02907.pdf)
 
 [[3] Fang, Fang, et al. "Urban land-use classification from photographs." *IEEE Geoscience and Remote Sensing Letters* 15.12 (2018): 1927-1931.](https://ieeexplore.ieee.org/abstract/document/8447270)
+
+---
+### Code Reference
+<a href = "https://tutorials.pytorch.kr/beginner/basics/data_tutorial.html"> [0] How to use torch Datalaoder </a>
