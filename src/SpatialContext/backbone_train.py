@@ -1,4 +1,3 @@
-
 if __name__ == "__main__" :
     import numpy as np
     import pandas as pd
@@ -26,9 +25,9 @@ if __name__ == "__main__" :
     test_loader = DataLoader(test_dataset, batch_size = 32, shuffle = True)
 
     device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
-    model = models.resnet101(pretrained = True) # resent backbone
-    for param in model.parameters(): param.requires_grad = False # weigth freeze
-    model.fc = nn.Sequential(nn.Linear(2048, 200), nn.ReLU(), nn.Linear(200, 5)) # model custom
+    model = models.resnet101(pretrained = True) # ResNet backbone
+    # for param in model.parameters(): param.requires_grad = False # ** model weight update freeze
+    model.fc = nn.Sequential(nn.Linear(2048, 200), nn.ReLU(), nn.Linear(200, 5)) #model custom
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr = 0.0001)
     loss_fn = nn.CrossEntropyLoss()
@@ -46,4 +45,4 @@ if __name__ == "__main__" :
 
     model.load_state_dict(torch.load('./src/SpatialContext/model_output/backbone_result.pth'))
     final_loss, final_acc = model_evaluate(model, test_loader, loss_fn, device)
-    print(f'evaluation loss: {final_loss:.5f}, evaluation accuracy: {final_acc:.5f}') # eval
+    print(f'evaluation loss: {final_loss:.5f}, evaluation accuracy: {final_acc:.5f}') # evaluation loss: 0.82312, evaluation accuracy: 0.77760

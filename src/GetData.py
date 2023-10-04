@@ -42,7 +42,7 @@ if __name__ == "__main__" :
 
     points = [[s.y, s.x] for _, s in enumerate(seoul_info.geometry.centroid.reset_index(drop = True))]
     points = [str(p[0]) + "," + str(p[1]) for p in points]
-    _ = [Get_streetview(p, i) for p, i in tqdm(enumerate(points))]
+    _ = [Get_streetview(p, i) for i, p in tqdm(enumerate(points))]
 
     landuse_type = list(set(seoul_info['landuse'].values))
     landuse_dict = {t: seoul_info[seoul_info['landuse'].isin([t])].index.tolist() for t in landuse_type}
@@ -53,4 +53,3 @@ if __name__ == "__main__" :
     for t in tqdm(landuse_type) :  # Move category name file
         for i in landuse_dict[t] :
             shutil.move(f"{config.FILE_PATH}/{file_list[i]}", f"{config.FILE_PATH}/{t}/{file_list[i]}")
-
