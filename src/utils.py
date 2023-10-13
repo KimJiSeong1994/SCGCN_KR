@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 class Utils :
     @staticmethod
     def Delaunay(points) :
@@ -5,7 +8,6 @@ class Utils :
         from tqdm import tqdm
         from scipy.spatial import Delaunay
 
-        # points = [[s.x, s.y] for _, s in enumerate(landuse.geometry.centroid.reset_index(drop = True))]
         tri = Delaunay(points)
         PPE_ajd = np.zeros((len(points), len(points)))
         for i in tqdm(tri.simplices.tolist()) :
@@ -14,3 +16,7 @@ class Utils :
             PPE_ajd[i[1], i[2]] = 1
 
         return PPE_ajd
+
+    # @staticmethod
+    # def SC_graph() :
+

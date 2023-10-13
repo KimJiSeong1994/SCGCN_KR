@@ -12,7 +12,7 @@ def model_train(model, data_loader, loss_fn, optimizer, device):
         loss = loss_fn(output, lbl)
         loss.backward()
         optimizer.step()
-        _, pred = output.max(dim=1)
+        _, pred = output.max(dim = 1)
         corr += pred.eq(lbl).sum().item()
         running_loss += loss.item() * img.size(0)
 
