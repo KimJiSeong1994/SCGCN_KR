@@ -1,9 +1,7 @@
-import pandas as pd
-
-
 class Utils :
     @staticmethod
     def Delaunay(points) :
+        import pandas as pd
         import numpy as np
         from tqdm import tqdm
         from scipy.spatial import Delaunay
